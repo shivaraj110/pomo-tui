@@ -31,6 +31,7 @@ function SideBar({ navItems, onSelect }: SideBarProps) {
 
 
 const navItems: Item<string>[] = [
+	{ label: 'welcome', value: 'welcome' },
 	{ label: 'timer', value: 'timer' },
 	{ label: 'stopwatch', value: 'stopwatch' },
 	{ label: 'Exit', value: 'exit' },
@@ -52,6 +53,7 @@ export default function App() {
 	return (
 		<MainLayout>
 			<SideBar navItems={navItems} onSelect={onNavItemSlected} />
+			{currentNavItem?.value === 'welcome' && <ContentWelcome />}
 			{currentNavItem?.value === 'timer' && <ContentPaneOne />}
 			{currentNavItem?.value === 'stopwatch' && <ContentPaneTwo />}
 		</MainLayout>
@@ -60,7 +62,22 @@ export default function App() {
 	return <Box>{children}</Box>;
 }
 
-
+function ContentWelcome() {
+	return (
+		<Box
+			borderStyle={'single'}
+			height={'100%'}
+			width={'100%'}
+			flexDirection={'column'}
+			paddingLeft={4}
+			paddingRight={4}
+		>
+			<Gradient name={'retro'}>
+				<BigText text={'Pomodororo'} />
+			</Gradient>
+		</Box>
+	)
+}
 
 
 function ContentPaneOne() {
