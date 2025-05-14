@@ -17,7 +17,7 @@ function SideBar({ navItems, onSelect }: SideBarProps) {
 	return (
 		<Box
 			height={'100%'}
-			width={25}
+			width={20}
 			paddingTop={1}
 			paddingBottom={1}
 			paddingLeft={2}
@@ -70,6 +70,7 @@ function ContentWelcome() {
 			flexDirection={'column'}
 			paddingLeft={4}
 			paddingRight={4}
+			paddingTop={3}
 		>
 			<Gradient name={'retro'}>
 				<BigText text={'Pomodororo'} font='tiny' />
@@ -87,6 +88,8 @@ function ContentPaneOne() {
 			flexDirection={'column'}
 			paddingLeft={4}
 			paddingRight={4}
+			paddingTop={3}
+
 		>
 			<Gradient name={'retro'}>
 				<BigText text={'Timer'} font='tiny' />
@@ -103,6 +106,8 @@ function ContentPaneTwo() {
 			flexDirection={'column'}
 			paddingLeft={4}
 			paddingRight={4}
+			paddingTop={3}
+
 		>
 			<Gradient name={'rainbow'}>
 				<BigText text={'Stopwatch'} font='tiny' />
