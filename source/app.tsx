@@ -16,7 +16,6 @@ type SideBarProps = {
 function SideBar({ navItems, onSelect }: SideBarProps) {
 	return (
 		<Box
-			borderStyle={'single'}
 			height={'100%'}
 			width={25}
 			paddingTop={1}
@@ -52,10 +51,11 @@ export default function App() {
 
 	return (
 		<MainLayout>
-			<SideBar navItems={navItems} onSelect={onNavItemSlected} />
 			{currentNavItem?.value === 'welcome' && <ContentWelcome />}
 			{currentNavItem?.value === 'timer' && <ContentPaneOne />}
 			{currentNavItem?.value === 'stopwatch' && <ContentPaneTwo />}
+			<SideBar navItems={navItems} onSelect={onNavItemSlected} />
+
 		</MainLayout>
 	);
 } function MainLayout({ children }: PropsWithChildren) {
@@ -65,7 +65,6 @@ export default function App() {
 function ContentWelcome() {
 	return (
 		<Box
-			borderStyle={'single'}
 			height={'100%'}
 			width={'100%'}
 			flexDirection={'column'}
@@ -73,7 +72,7 @@ function ContentWelcome() {
 			paddingRight={4}
 		>
 			<Gradient name={'retro'}>
-				<BigText text={'Pomodororo'} />
+				<BigText text={'Pomodororo'} font='tiny' />
 			</Gradient>
 		</Box>
 	)
@@ -83,7 +82,6 @@ function ContentWelcome() {
 function ContentPaneOne() {
 	return (
 		<Box
-			borderStyle={'single'}
 			height={'100%'}
 			width={'100%'}
 			flexDirection={'column'}
@@ -91,7 +89,7 @@ function ContentPaneOne() {
 			paddingRight={4}
 		>
 			<Gradient name={'retro'}>
-				<BigText text={'Timer'} />
+				<BigText text={'Timer'} font='tiny' />
 			</Gradient>
 		</Box>
 	)
@@ -100,15 +98,14 @@ function ContentPaneOne() {
 function ContentPaneTwo() {
 	return (
 		<Box
-			borderStyle={'single'}
-			height={'200%'}
-			width={'200%'}
+			height={'100%'}
+			width={'100%'}
 			flexDirection={'column'}
 			paddingLeft={4}
 			paddingRight={4}
 		>
 			<Gradient name={'rainbow'}>
-				<BigText text={'Stopwatch'} />
+				<BigText text={'Stopwatch'} font='tiny' />
 			</Gradient>
 		</Box>
 	)
