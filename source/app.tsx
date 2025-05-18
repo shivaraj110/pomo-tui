@@ -1,8 +1,9 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { Box, useApp } from 'ink';
 import Gradient from 'ink-gradient';
 import BigText from 'ink-big-text';
 import SelectInput from 'ink-select-input';
+import { Timer } from './timer.js';
 type Item<T> = {
 	label: string;
 	value: T;
@@ -49,6 +50,10 @@ export default function App() {
 		}
 	};
 
+	useEffect(() => {
+		console.log('comp mounted');
+
+	}, []);
 	return (
 		<MainLayout>
 			{currentNavItem?.value === 'welcome' && <ContentWelcome />}
@@ -86,14 +91,15 @@ function ContentPaneOne() {
 			height={'100%'}
 			width={'100%'}
 			flexDirection={'column'}
-			paddingLeft={4}
-			paddingRight={4}
-			paddingTop={3}
+			paddingLeft={2}
+			paddingRight={2}
+			paddingTop={2}
 
 		>
 			<Gradient name={'retro'}>
 				<BigText text={'Timer'} font='tiny' />
 			</Gradient>
+			<Timer />
 		</Box>
 	)
 }
