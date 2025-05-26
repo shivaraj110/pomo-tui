@@ -91,14 +91,11 @@ function ContentPaneOne() {
 			height={'100%'}
 			width={'100%'}
 			flexDirection={'column'}
-			paddingLeft={2}
-			paddingRight={2}
-			paddingTop={2}
 
 		>
-			<Gradient name={'retro'}>
-				<BigText text={'Timer'} font='tiny' />
-			</Gradient>
+			{/* <Gradient name={'retro'}> */}
+			{/* 	<BigText text={'Timer'} font='tiny' /> */}
+			{/* </Gradient> */}
 			<Timer />
 		</Box>
 	)
