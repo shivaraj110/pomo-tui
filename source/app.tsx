@@ -1,9 +1,9 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { Box, useApp } from 'ink';
+import React, {PropsWithChildren, useEffect, useState} from 'react';
+import {Box, useApp} from 'ink';
 import Gradient from 'ink-gradient';
 import BigText from 'ink-big-text';
 import SelectInput from 'ink-select-input';
-import { Timer } from './timer.js';
+import {Timer} from './timer.js';
 type Item<T> = {
 	label: string;
 	value: T;
@@ -13,34 +13,31 @@ type SideBarProps = {
 	onSelect: (item: Item<string>) => void;
 };
 
-
-function SideBar({ navItems, onSelect }: SideBarProps) {
+function SideBar({navItems, onSelect}: SideBarProps) {
 	return (
 		<Box
 			height={'100%'}
-			width={20}
-			paddingTop={1}
-			paddingBottom={1}
-			paddingLeft={2}
-			paddingRight={2}
+			width={'100%'}
+			flexDirection={'column'}
+			alignItems="center"
+			justifyContent="center"
 		>
 			<SelectInput items={navItems} onSelect={onSelect} />
 		</Box>
 	);
 }
 
-
 const navItems: Item<string>[] = [
-	{ label: 'welcome', value: 'welcome' },
-	{ label: 'timer', value: 'timer' },
-	{ label: 'stopwatch', value: 'stopwatch' },
-	{ label: 'Exit', value: 'exit' },
-]
-
+	{label: 'welcome', value: 'welcome'},
+	{label: 'timer', value: 'timer'},
+	{label: 'stopwatch', value: 'stopwatch'},
+	{label: 'Exit', value: 'exit'},
+];
 
 export default function App() {
 	const [currentNavItem, setCUrrentNavItem] = useState(navItems[0]);
-	const { exit } = useApp();
+	const [isTimerActive, setIsTimerActive] = useState(false);
+	const {exit} = useApp();
 
 	const onNavItemSlected = (item: Item<string>) => {
 		if (item.value === 'exit') {
@@ -52,18 +49,21 @@ export default function App() {
 
 	useEffect(() => {
 		console.log('comp mounted');
-
 	}, []);
 	return (
 		<MainLayout>
 			{currentNavItem?.value === 'welcome' && <ContentWelcome />}
-			{currentNavItem?.value === 'timer' && <ContentPaneOne />}
+			{currentNavItem?.value === 'timer' && (
+				<ContentPaneOne onActiveChange={setIsTimerActive} />
+			)}
 			{currentNavItem?.value === 'stopwatch' && <ContentPaneTwo />}
-			<SideBar navItems={navItems} onSelect={onNavItemSlected} />
-
+			{!isTimerActive && (
+				<SideBar navItems={navItems} onSelect={onNavItemSlected} />
+			)}
 		</MainLayout>
 	);
-} function MainLayout({ children }: PropsWithChildren) {
+}
+function MainLayout({children}: PropsWithChildren) {
 	return <Box>{children}</Box>;
 }
 
@@ -78,27 +78,28 @@ function ContentWelcome() {
 			paddingTop={3}
 		>
 			<Gradient name={'retro'}>
-				<BigText text={'Pomodororo'} font='tiny' />
+				<BigText text={'Pomodororo'} font="tiny" />
 			</Gradient>
 		</Box>
-	)
+	);
 }
 
-
-function ContentPaneOne() {
+function ContentPaneOne({
+	onActiveChange,
+}: {
+	onActiveChange: (isActive: boolean) => void;
+}) {
 	return (
 		<Box
 			height={'100%'}
 			width={'100%'}
 			flexDirection={'column'}
-
+			alignItems="center"
+			justifyContent="center"
 		>
-			{/* <Gradient name={'retro'}> */}
-			{/* 	<BigText text={'Timer'} font='tiny' /> */}
-			{/* </Gradient> */}
-			<Timer />
+			<Timer onActiveChange={onActiveChange} />
 		</Box>
-	)
+	);
 }
 
 function ContentPaneTwo() {
@@ -110,15 +111,10 @@ function ContentPaneTwo() {
 			paddingLeft={4}
 			paddingRight={4}
 			paddingTop={3}
-
 		>
 			<Gradient name={'rainbow'}>
-				<BigText text={'Stopwatch'} font='tiny' />
+				<BigText text={'Stopwatch'} font="tiny" />
 			</Gradient>
 		</Box>
-	)
+	);
 }
-
-
-
-

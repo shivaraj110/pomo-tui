@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Text, useInput } from 'ink';
+import React, {useState, useEffect} from 'react';
+import {Box, Text, useInput} from 'ink';
 import Gradient from 'ink-gradient';
 import BigText from 'ink-big-text';
 
 interface TimerProps {
 	initialSeconds?: number;
+	onActiveChange?: (isActive: boolean) => void;
 }
 
-const Timer: React.FC<TimerProps> = ({ initialSeconds = 0 }) => {
+const Timer: React.FC<TimerProps> = ({initialSeconds = 0, onActiveChange}) => {
 	const [seconds, setSeconds] = useState(initialSeconds);
 	const [isActive, setIsActive] = useState(false);
 
@@ -33,12 +34,14 @@ const Timer: React.FC<TimerProps> = ({ initialSeconds = 0 }) => {
 		return [
 			hours.toString().padStart(2, '0'),
 			minutes.toString().padStart(2, '0'),
-			secs.toString().padStart(2, '0')
+			secs.toString().padStart(2, '0'),
 		].join(':');
 	};
 
 	const toggle = () => {
-		setIsActive(!isActive);
+		const newActive = !isActive;
+		setIsActive(newActive);
+		onActiveChange?.(newActive);
 	};
 
 	const reset = () => {
@@ -47,7 +50,7 @@ const Timer: React.FC<TimerProps> = ({ initialSeconds = 0 }) => {
 	};
 
 	// Handle keyboard input
-	useInput((input) => {
+	useInput(input => {
 		if (input === 'p') {
 			toggle();
 		}
@@ -57,22 +60,39 @@ const Timer: React.FC<TimerProps> = ({ initialSeconds = 0 }) => {
 	});
 
 	return (
-		<Box flexDirection="column" padding={1}>
-			<Box marginBottom={1}>
-			</Box>
+		<Box
+			flexDirection="column"
+			padding={1}
+			alignItems="center"
+			justifyContent="center"
+		>
+			<Box marginBottom={1} alignItems="center"></Box>
 
-			<Box marginBottom={1}>
+			<Box marginBottom={1} alignItems="center">
 				<Gradient name={'retro'}>
-					<BigText font='chrome' text={formatTime() ?? ""} />
+					<BigText font="chrome" text={formatTime() ?? ''} />
 				</Gradient>
 			</Box>
-			<Box>
-				<Text >
-					Status: <Text color={isActive ? "green" : "yellow"}>{isActive ? "Running" : "Paused"}</Text>
+			<Box alignItems="center">
+				<Text>
+					Status:{' '}
+					<Text color={isActive ? 'green' : 'yellow'}>
+						{isActive ? 'Running' : 'Paused'}
+					</Text>
 				</Text>
 			</Box>
-			<Box marginTop={1}>
-				<Text>Press <Text bold color="blue">p</Text> to {isActive ? "pause" : "play"}, <Text bold color="red">r</Text> to reset</Text>
+			<Box marginTop={1} alignItems="center">
+				<Text>
+					Press{' '}
+					<Text bold color="blue">
+						p
+					</Text>{' '}
+					to {isActive ? 'pause' : 'play'},{' '}
+					<Text bold color="red">
+						r
+					</Text>{' '}
+					to reset
+				</Text>
 			</Box>
 		</Box>
 	);
@@ -83,5 +103,5 @@ const App = () => {
 	return <Timer />;
 };
 
-export { Timer };
+export {Timer};
 export default App;
