@@ -2,29 +2,46 @@ import React, {useState, useEffect} from 'react';
 import {Box, Text, useInput} from 'ink';
 import Gradient from 'ink-gradient';
 import BigText from 'ink-big-text';
+import {GradientTheme, cycleGradient, cyclePreviousGradient} from './colors.js';
 
 interface TimerProps {
 	initialSeconds?: number;
 	onActiveChange?: (isActive: boolean) => void;
+	stopTime?: number;
+	initialTheme?: GradientTheme;
 }
 
-const Timer: React.FC<TimerProps> = ({initialSeconds = 0, onActiveChange}) => {
+const Timer: React.FC<TimerProps> = ({
+	initialSeconds = 0,
+	onActiveChange,
+	stopTime: initialStopTime,
+	initialTheme = 'mind',
+}) => {
 	const [seconds, setSeconds] = useState(initialSeconds);
 	const [isActive, setIsActive] = useState(false);
+	const [stopTime, setStopTime] = useState(initialStopTime);
+	const [theme, setTheme] = useState<GradientTheme>(initialTheme);
 
 	useEffect(() => {
 		let interval: NodeJS.Timeout | null = null;
 
 		if (isActive) {
 			interval = setInterval(() => {
-				setSeconds(seconds => seconds + 1);
+				setSeconds(seconds => {
+					if (stopTime && seconds >= stopTime) {
+						setIsActive(false);
+						onActiveChange?.(false);
+						return seconds;
+					}
+					return seconds + 1;
+				});
 			}, 1000);
 		}
 
 		return () => {
 			if (interval) clearInterval(interval);
 		};
-	}, [isActive]);
+	}, [isActive, stopTime, onActiveChange]);
 
 	const formatTime = () => {
 		const hours = Math.floor(seconds / 3600);
@@ -47,15 +64,28 @@ const Timer: React.FC<TimerProps> = ({initialSeconds = 0, onActiveChange}) => {
 	const reset = () => {
 		setSeconds(0);
 		setIsActive(false);
+		onActiveChange?.(false);
 	};
 
-	// Handle keyboard input
-	useInput(input => {
+	useInput((input, key) => {
 		if (input === 'p') {
 			toggle();
 		}
 		if (input === 'r') {
 			reset();
+		}
+		if (!isActive && (key.leftArrow || key.rightArrow)) {
+			const step = 60; // Change by 1 minute
+			const currentValue = stopTime || 0;
+			const newValue = key.leftArrow
+				? Math.max(0, currentValue - step)
+				: currentValue + step;
+			setStopTime(newValue);
+		}
+		if (input === '[' || input === ']') {
+			setTheme(
+				input === '[' ? cyclePreviousGradient(theme) : cycleGradient(theme),
+			);
 		}
 	});
 
@@ -66,11 +96,17 @@ const Timer: React.FC<TimerProps> = ({initialSeconds = 0, onActiveChange}) => {
 			alignItems="center"
 			justifyContent="center"
 		>
-			<Box marginBottom={1} alignItems="center"></Box>
+			<Box marginBottom={1} alignItems="center">
+				<Text>Stop Time: {Math.floor((stopTime || 0) / 60)} minutes (← →)</Text>
+			</Box>
 
 			<Box marginBottom={1} alignItems="center">
-				<Gradient name={'retro'}>
-					<BigText font="chrome" text={formatTime() ?? ''} />
+				<Text>Theme: {theme} ([ ])</Text>
+			</Box>
+
+			<Box marginBottom={1} alignItems="center">
+				<Gradient name={theme}>
+					<BigText font="chrome" text={formatTime()} />
 				</Gradient>
 			</Box>
 			<Box alignItems="center">
