@@ -9,6 +9,10 @@ interface TimerProps {
 	onActiveChange?: (isActive: boolean) => void;
 	stopTime?: number;
 	initialTheme?: GradientTheme;
+	onComplete?: () => void;
+	onPause?: (remainingTime: number) => void;
+	isCountdown?: boolean;
+	showStopTime?: boolean;
 }
 
 const Timer: React.FC<TimerProps> = ({
@@ -16,6 +20,10 @@ const Timer: React.FC<TimerProps> = ({
 	onActiveChange,
 	stopTime: initialStopTime,
 	initialTheme = 'mind',
+	onComplete,
+	onPause,
+	isCountdown = false,
+	showStopTime = false,
 }) => {
 	const [seconds, setSeconds] = useState(initialSeconds);
 	const [isActive, setIsActive] = useState(false);
@@ -33,7 +41,14 @@ const Timer: React.FC<TimerProps> = ({
 						onActiveChange?.(false);
 						return seconds;
 					}
-					return seconds + 1;
+					const newSeconds = isCountdown ? seconds - 1 : seconds + 1;
+					if (isCountdown && newSeconds <= 0) {
+						setIsActive(false);
+						onActiveChange?.(false);
+						onComplete?.();
+						return 0;
+					}
+					return newSeconds;
 				});
 			}, 1000);
 		}
@@ -59,6 +74,9 @@ const Timer: React.FC<TimerProps> = ({
 		const newActive = !isActive;
 		setIsActive(newActive);
 		onActiveChange?.(newActive);
+		if (!newActive && onPause) {
+			onPause(seconds);
+		}
 	};
 
 	const reset = () => {
@@ -68,13 +86,18 @@ const Timer: React.FC<TimerProps> = ({
 	};
 
 	useInput((input, key) => {
-		if (input === 'p') {
+		if (input === 'p' || input === ' ') {
 			toggle();
 		}
 		if (input === 'r') {
 			reset();
 		}
-		if (!isActive && (key.leftArrow || key.rightArrow)) {
+		if (
+			!isActive &&
+			!isCountdown &&
+			(key.leftArrow || key.rightArrow) &&
+			stopTime !== undefined
+		) {
 			const step = 60; // Change by 1 minute
 			const currentValue = stopTime || 0;
 			const newValue = key.leftArrow
@@ -96,13 +119,19 @@ const Timer: React.FC<TimerProps> = ({
 			alignItems="center"
 			justifyContent="center"
 		>
-			<Box marginBottom={1} alignItems="center">
-				<Text>Stop Time: {Math.floor((stopTime || 0) / 60)} minutes (← →)</Text>
-			</Box>
+			{showStopTime && stopTime !== undefined && (
+				<Box marginBottom={1} alignItems="center">
+					<Text>
+						Stop Time: {Math.floor((stopTime || 0) / 60)} minutes (← →)
+					</Text>
+				</Box>
+			)}
 
-			<Box marginBottom={1} alignItems="center">
-				<Text>Theme: {theme} ([ ])</Text>
-			</Box>
+			{!isCountdown && (
+				<Box marginBottom={1} alignItems="center">
+					<Text>Theme: {theme} ([ ])</Text>
+				</Box>
+			)}
 
 			<Box marginBottom={1} alignItems="center">
 				<Gradient name={theme}>
@@ -121,13 +150,18 @@ const Timer: React.FC<TimerProps> = ({
 				<Text>
 					Press{' '}
 					<Text bold color="blue">
-						p
+						{isCountdown ? 'space' : 'p'}
 					</Text>{' '}
-					to {isActive ? 'pause' : 'play'},{' '}
-					<Text bold color="red">
-						r
-					</Text>{' '}
-					to reset
+					to {isActive ? 'pause' : 'play'}
+					{!isCountdown && (
+						<>
+							,{' '}
+							<Text bold color="red">
+								r
+							</Text>{' '}
+							to reset
+						</>
+					)}
 				</Text>
 			</Box>
 		</Box>
