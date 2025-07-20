@@ -5,6 +5,7 @@ import BigText from 'ink-big-text';
 import SelectInput from 'ink-select-input';
 import {Timer} from './timer.js';
 import StopWatch from './stopwatch.js';
+import {Pomodoro} from './pomodoro.js';
 
 type Item<T> = {
 	label: string;
@@ -49,6 +50,7 @@ const navItems: Item<string>[] = [
 	{label: '🏠 Welcome', value: 'welcome'},
 	{label: '⏱️ Timer', value: 'timer'},
 	{label: '⏰ Stopwatch', value: 'stopwatch'},
+	{label: '🍅 Pomodoro', value: 'pomodoro'},
 	{label: '🚪 Exit', value: 'exit'},
 ];
 
@@ -58,9 +60,9 @@ export default function App() {
 	const {exit} = useApp();
 
 	const onNavItemSlected = (item: Item<string>) => {
-		if (item.value === 'exit') {
+		if (item.value === 'exit' && !isTimerActive) {
 			exit();
-		} else {
+		} else if (!isTimerActive) {
 			setCUrrentNavItem(item);
 		}
 	};
@@ -77,6 +79,17 @@ export default function App() {
 			)}
 			{currentNavItem?.value === 'stopwatch' && (
 				<ContentPaneTwo onActiveChange={setIsTimerActive} />
+			)}
+			{currentNavItem?.value === 'pomodoro' && (
+				<Box
+					height={'100%'}
+					width={'100%'}
+					flexDirection={'column'}
+					alignItems="center"
+					justifyContent="center"
+				>
+					<Pomodoro onActiveChange={setIsTimerActive} />
+				</Box>
 			)}
 			{!isTimerActive && (
 				<SideBar navItems={navItems} onSelect={onNavItemSlected} />
@@ -119,7 +132,7 @@ function ContentPaneOne({
 			alignItems="center"
 			justifyContent="center"
 		>
-			<Timer onActiveChange={onActiveChange} />
+			<Timer onActiveChange={onActiveChange} showStopTime={true} />
 		</Box>
 	);
 }
