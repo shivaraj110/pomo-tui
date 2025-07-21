@@ -1,9 +1,9 @@
 {
 	"name": "pomo-tui",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"license": "MIT",
-	"main":"dist/cli.js",
-	"bin":{
+	"main": "dist/cli.js",
+	"bin": {
 		"pomo-tui": "./dist/cli.js"
 	},
 	"type": "module",
@@ -11,12 +11,12 @@
 		"node": ">=16"
 	},
 	"scripts": {
-  "build": "tsc",
-  "dev": "tsc --watch",
-  "test": "prettier --check . && xo && ava",
-  "prepublishOnly": "npm run build"
-},
-"author":"Shivaraj110",
+		"build": "tsc",
+		"dev": "tsc --watch",
+		"test": "prettier --check . && xo && ava",
+		"prepublishOnly": "npm run build"
+	},
+	"author": "Shivaraj110",
 	"repository": "https://github.com/shivaraj110/poro-tui",
 	"homepage": "https://github.com/shivaraj110/poro-tui#readme",
 	"files": [
