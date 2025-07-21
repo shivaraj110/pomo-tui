@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"main":"dist/cli.js",
 	"bin":{
-		"pomo-tui": "./dist/cli.js"
+		"pomo-tui": "dist/cli.js"
 	},
 	"type": "module",
 	"engines": {
