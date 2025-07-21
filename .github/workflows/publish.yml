@@ -16,7 +16,7 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: install dependencies
-        run: npm ci  # Use npm ci for faster, reliable installs in CI
+        run: npm i
 
       - name: build project
         run: npm run build
