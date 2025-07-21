@@ -1,11 +1,11 @@
-import React, {PropsWithChildren, useEffect, useState} from 'react';
-import {Box, Text, useApp} from 'ink';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
+import { Box, Text, useApp } from 'ink';
 import Gradient from 'ink-gradient';
 import BigText from 'ink-big-text';
 import SelectInput from 'ink-select-input';
-import {Timer} from './timer.js';
+import { Timer } from './timer.js';
 import StopWatch from './stopwatch.js';
-import {Pomodoro} from './pomodoro.js';
+import { Pomodoro } from './pomodoro.js';
 
 type Item<T> = {
 	label: string;
@@ -17,7 +17,7 @@ type SideBarProps = {
 	onSelect: (item: Item<string>) => void;
 };
 
-function SideBar({navItems, onSelect}: SideBarProps) {
+function SideBar({ navItems, onSelect }: SideBarProps) {
 	return (
 		<Box
 			height={'100%'}
@@ -32,7 +32,7 @@ function SideBar({navItems, onSelect}: SideBarProps) {
 			<SelectInput
 				items={navItems}
 				onSelect={onSelect}
-				itemComponent={({label, isSelected}) => (
+				itemComponent={({ label, isSelected }) => (
 					<Text>
 						<Gradient name="retro">
 							<Text>
@@ -47,17 +47,17 @@ function SideBar({navItems, onSelect}: SideBarProps) {
 }
 
 const navItems: Item<string>[] = [
-	{label: '🏠 Welcome', value: 'welcome'},
-	{label: '⏱️ Timer', value: 'timer'},
-	{label: '⏰ Stopwatch', value: 'stopwatch'},
-	{label: '🍅 Pomodoro', value: 'pomodoro'},
-	{label: '🚪 Exit', value: 'exit'},
+	{ label: '🏠 Welcome', value: 'welcome' },
+	{ label: '⏱️ Timer', value: 'timer' },
+	{ label: '⏰ Stopwatch', value: 'stopwatch' },
+	{ label: '🍅 Pomodoro', value: 'pomodoro' },
+	{ label: '🚪 Exit', value: 'exit' },
 ];
 
 export default function App() {
 	const [currentNavItem, setCUrrentNavItem] = useState(navItems[0]);
 	const [isTimerActive, setIsTimerActive] = useState(false);
-	const {exit} = useApp();
+	const { exit } = useApp();
 
 	const onNavItemSlected = (item: Item<string>) => {
 		if (item.value === 'exit' && !isTimerActive) {
@@ -98,7 +98,7 @@ export default function App() {
 	);
 }
 
-function MainLayout({children}: PropsWithChildren) {
+function MainLayout({ children }: PropsWithChildren) {
 	return <Box>{children}</Box>;
 }
 
@@ -113,7 +113,7 @@ function ContentWelcome() {
 			paddingTop={3}
 		>
 			<Gradient name={'retro'}>
-				<BigText text={'Poro'} font="tiny" />
+				<BigText text={'Pomo-tui'} font="tiny" />
 			</Gradient>
 		</Box>
 	);

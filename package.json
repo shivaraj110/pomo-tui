@@ -1,10 +1,10 @@
 {
-	"name": "pomodoro",
+	"name": "pomo-tui",
 	"version": "0.0.0",
 	"license": "MIT",
 	"main":"dist/cli.js",
 	"bin":{
-		"pomotimer": "./dist/cli.js"
+		"pomo-tui": "./dist/cli.js"
 	},
 	"type": "module",
 	"engines": {
@@ -15,6 +15,9 @@
 		"dev": "tsc --watch",
 		"test": "prettier --check . && xo && ava"
 	},
+	"author":"Shivaraj110",
+	"repository": "https://github.com/shivaraj110/poro-tui",
+	"homepage": "https://github.com/shivaraj110/poro-tui#readme",
 	"files": [
 		"dist"
 	],
