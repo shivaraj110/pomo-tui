@@ -1,6 +1,6 @@
 {
 	"name": "pomo-tui",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"license": "MIT",
 	"main":"dist/cli.js",
 	"bin":{
