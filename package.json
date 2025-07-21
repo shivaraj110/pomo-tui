@@ -1,6 +1,6 @@
 {
 	"name": "pomo-tui",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"license": "MIT",
 	"main": "dist/cli.js",
 	"bin": {
@@ -13,7 +13,7 @@
 	"scripts": {
 		"build": "tsc",
 		"dev": "tsc --watch",
-		"test": "prettier --check . && xo && ava",
+		"test": "prettier --check . && xo && ava"
 	},
 	"author": "Shivaraj110",
 	"repository": "https://github.com/shivaraj110/poro-tui",
