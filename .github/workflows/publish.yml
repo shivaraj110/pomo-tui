@@ -7,14 +7,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2
-      - name: node
-        uses: actions/setup-node@v2
+        uses: actions/checkout@v4  # Updated to v4
+
+      - name: setup node
+        uses: actions/setup-node@v4  # Updated to v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
-      - name: publish
+
+      - name: install dependencies
+        run: npm ci  # Use npm ci for faster, reliable installs in CI
+
+      - name: build project
+        run: npm run build
+
+      - name: run tests (optional)
+        run: npm test
+
+      - name: publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPMAUTHTOKEN}}
-
