@@ -1,6 +1,6 @@
 {
 	"name": "pomo-tui",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"license": "MIT",
 	"main": "dist/cli.js",
 	"bin": {
@@ -20,6 +20,12 @@
 	"homepage": "https://github.com/shivaraj110/poro-tui#readme",
 	"files": [
 		"dist"
+	],
+	"keywords":[
+		"cli-timer",
+		"pomodoro",
+		"productivity",
+		"time management",
 	],
 	"dependencies": {
 		"fullscreen-ink": "^0.0.2",
