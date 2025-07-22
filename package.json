@@ -25,7 +25,7 @@
 		"cli-timer",
 		"pomodoro",
 		"productivity",
-		"time management",
+		"time management"
 	],
 	"dependencies": {
 		"fullscreen-ink": "^0.0.2",
